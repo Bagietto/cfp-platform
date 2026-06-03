@@ -36,6 +36,8 @@ Alternativas consideradas:
 
 Frontend e backend devem depender do mesmo DTO exportado, reduzindo divergencia de campos entre tela e API. No backend, ainda sera necessario um DTO de entrada decorado com `class-validator`, mas ele deve manter compatibilidade estrutural com `SpeakerDTO` para preservar o contrato compartilhado.
 
+Na implementacao, essa compatibilidade sera mantida com um DTO de validacao que implementa `SpeakerDTO` e replica exatamente os campos `id`, `name`, `email`, `talkTitle` e `isGDE`. O frontend gerara `id` no cliente com UUID antes do envio, e o backend aceitara e retornara o mesmo formato validado.
+
 Alternativas consideradas:
 - Duplicar a interface no frontend e no backend.
   - Rejeitada porque cria risco de drift de contrato.
@@ -93,6 +95,6 @@ Alternativas consideradas:
 
 ## Open Questions
 
-- O campo `id` de `SpeakerDTO` sera preenchido no cliente antes do envio ou atribuido pelo backend no processamento?
+- O campo `id` de `SpeakerDTO` sera preenchido no cliente antes do envio ou atribuido pelo backend no processamento? Resolvido: o cliente gera o UUID antes do envio para manter o contrato completo desde a camada de UI.
 - O endpoint deve apenas aceitar a submissao e retornar confirmacao, ou tambem ecoar o objeto normalizado da palestra submetida?
 - O fluxo inicial precisara de persistencia real, ou uma implementacao em memoria sera suficiente para a primeira iteracao do modulo?
